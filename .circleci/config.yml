@@ -21,3 +21,4 @@ jobs: # a collection of steps
             echo 'export USERNAME=$MASTER_USERNAME' >> $BASH_ENV 
             echo $USERNAME
       - run: echo $USERNAME
+      - run: echo $MASTER_USERNAME
