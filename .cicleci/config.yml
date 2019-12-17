@@ -1,27 +1,23 @@
-version: 2  # use CircleCI 2.0
-jobs: # basic units of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point
-    environment:
+version: 2.1 # use CircleCI 2.0
+  
+# Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
+workflows:
+  version: 2
+  build-then-deploy:
+    jobs:
+      - build
+
+jobs: # a collection of steps
+  build:
+      environment:
       MASTER_BRANCH: master
     docker: # run the steps with Docker
-      - image: circleci/node:lts
-    steps: # steps that comprise the `build` job
-      - checkout # check out source code to working directory
-      # Run a step to setup an environment variable.
-      - run: 
-          name: "Setup custom environment variables"
+      - image: circleci/node:lts-browsers # ...with this image as the primary container; this is where all `steps` will run
+    steps: # a collection of executable commands
+      - checkout # special step to check out source code to working directory
+      - run:
+          name: Set UI test config environment variables
           command: |
-            echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-      # Run a step to print what branch our code base is on.
-      - run: # test what branch we're on.
-          name: "What branch am I on?"
-          command: echo ${CIRCLE_BRANCH}
-      # Run another step, the same as above; note that you can
-      # invoke environment variable without curly braces.
-      # prints: XXXXXXX
-      - run:
-          name: "What branch am I on now?"
-          command: echo $CIRCLE_BRANCH # prints: XXXXXXX
-      - run:
-          name: "What was my custom environment variable?"
-          command: echo ${MY_ENV_VAR}  # prints: XXXXXXX
+            echo 'export USERNAME=$MASTER_USERNAME' >> $BASH_ENV 
+            echo $USERNAME
+      - run: echo $USERNAME
