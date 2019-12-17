@@ -9,7 +9,7 @@ workflows:
 
 jobs: # a collection of steps
   build:
-      environment:
+    environment:
       MASTER_BRANCH: master
     docker: # run the steps with Docker
       - image: circleci/node:lts-browsers # ...with this image as the primary container; this is where all `steps` will run
