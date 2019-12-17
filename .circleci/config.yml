@@ -22,3 +22,4 @@ jobs: # a collection of steps
             echo $USERNAME
       - run: echo $USERNAME
       - run: echo $MASTER_USERNAME
+      - run: echo $MASTER_USERNAME
