@@ -1,25 +1,41 @@
 version: 2.1 # use CircleCI 2.0
-  
+executors:
+  test_exec:
+    docker:
+      - image: circleci/node:lts
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   version: 2
   build-then-deploy:
     jobs:
       - build
+      - master-branch-test:
+          filters:
+            branches:
+              only: # only run on these branches
+                - master
+          requires:
+            - build
+      - staging-branch-test:
+          filters:
+            branches:
+              only: # only run on these branches
+                - staging
+          requires:
+            - build
 
 jobs: # a collection of steps
   build:
-    environment:
-      MASTER_BRANCH: master
-    docker: # run the steps with Docker
-      - image: circleci/node:lts-browsers # ...with this image as the primary container; this is where all `steps` will run
+    executor: test_exec
     steps: # a collection of executable commands
-      - checkout # special step to check out source code to working directory
-      - run:
-          name: Set UI test config environment variables
-          command: |
-            echo 'export USERNAME=$MASTER_USERNAME' >> $BASH_ENV 
-            echo $USERNAME
-      - run: echo $USERNAME
-      - run: echo $MASTER_USERNAME
-      - run: echo $MASTER_USERNA
+      - run: echo "Executing build job"
+
+  master-branch-test:
+    executor: test_exec
+    steps:
+      - run: echo "Executing master branch job"
+
+  staging-branch-test:
+    executor: test_exec
+    steps:
+      - run: echo "Executing Staging branch job"
