@@ -1,0 +1,7 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": "/home/tejas/codebase/learn-express/circle-ci-webhook/venv/bin/python3.5",
+    "python.linting.banditEnabled": false,
+    "python.formatting.provider": "autopep8"
+}
