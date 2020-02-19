@@ -18,6 +18,8 @@ provider:
   runtime: python3.6
   stage: github-circleci-webhook
   region: us-west-2
+  environment:
+    CIRCLECI_TOKEN: CIRCLECI_TOKEN
 
 functions:
   app:
@@ -25,3 +27,15 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+
+package:
+  exclude:
+    - .vscode
+    - venv/**
+    - .requirements.zip
+    - node_modules/**
+    - __pycache__/**
+    - package-lock.json
+    - package.json
+    - requirements.txt
+    - .gitignore
