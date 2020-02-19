@@ -15,6 +15,7 @@ Repos = ['tejasshekokar/learn-express']
 Branch = ['refs/heads/master']
 @webhook.hook(event_type='push')
 def on_pull_request(data):
+    print('Lamda Tiggered')
     payload = {
         'repo': data['repository']['full_name'],
         'branch': data['ref']
@@ -22,7 +23,6 @@ def on_pull_request(data):
     source_event = {'type': 'push', 'branch': Branch}
     if payload['repo'] in Repos and payload['branch'] in source_event['branch']:
         circleci_new_build(source_event, payload)
-
 
 def circleci_new_build(source_event, payload):
     worker_token = os.environ.get('CIRCLECI_TOKEN')
@@ -40,6 +40,5 @@ def circleci_new_build(source_event, payload):
     except Exception as ex:
         print(ex.message)
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000")
