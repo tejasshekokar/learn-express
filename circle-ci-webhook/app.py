@@ -45,6 +45,7 @@ def circleci_new_build(source_event, payload):
                'Circle-Token': '%s' % worker_token}
     # data = '{"branch": "master"}'            #It will trigger only master branch job
     data = '{"branch": "%s","parameters": {"run_tests": %s,"smoke_tests":%s} }' % (worker_branch,worker_param_one,worker_param_two)
+    print(data)
     api_url = 'https://circleci.com/api/v2/project/gh/' + worker_repo + '/pipeline'
     try:
         response = requests.post(
