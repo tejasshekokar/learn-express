@@ -29,6 +29,8 @@ jobs: # a collection of steps
     executor: test_exec
     steps: # a collection of executable commands
       - run: echo "Executing build job"
+      - checkout
+
 
   master-branch-test:
     executor: test_exec
