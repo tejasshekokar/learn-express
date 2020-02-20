@@ -20,6 +20,7 @@ provider:
   region: us-west-2
   environment:
     CIRCLECI_TOKEN: CIRCLECI_TOKEN
+    GITHUB_TOKEN: GITHUB_TOKEN
 
 functions:
   app:
