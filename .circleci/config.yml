@@ -3,7 +3,7 @@ executors:
   test_exec:
     docker:
       - image: circleci/node:lts
-      
+
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   version: 2
@@ -21,6 +21,7 @@ jobs: # a collection of steps
   build:
     executor: test_exec
     steps: # a collection of executable commands
+      - checkout
       - run: echo "Executing build job"
       - run: echo 'asdf' >> .test.env
       - persist_to_workspace:
@@ -32,6 +33,7 @@ jobs: # a collection of steps
   master-branch-test:
     executor: test_exec
     steps:
+      - checkout
       - run: echo "Executing master branch job"
       - attach_workspace:
           at: /home/circleci/project
