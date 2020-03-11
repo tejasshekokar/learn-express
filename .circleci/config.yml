@@ -3,43 +3,45 @@ executors:
   test_exec:
     docker:
       - image: circleci/node:lts
-parameters:
-  run_tests:
-    type: boolean
-    default: true
-  smoke_tests:
-    type: boolean
-    default: false
+      
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
   version: 2
   build-then-deploy:
-    when: << pipeline.parameters.run_tests >>
     jobs:
       - build
       - master-branch-test:
           requires:
             - build
-      - staging-branch-test:
-          requires:
-            - build
+      # - staging-branch-test:
+      #     requires:
+      #       - build
 
-  smoke-test-build:
-    when: << pipeline.parameters.smoke_tests >>
-    jobs:
-      - build
 jobs: # a collection of steps
   build:
     executor: test_exec
     steps: # a collection of executable commands
       - run: echo "Executing build job"
+      - run: echo 'asdf' >> .test.env
+      - persist_to_workspace:
+          root: /home/circleci/project
+          paths:
+            - .test.env
+      - run: |
+          pwd
+          ls
 
   master-branch-test:
     executor: test_exec
     steps:
       - run: echo "Executing master branch job"
+      - attach_workspace:
+          at: /home/circleci/project
+      - run: |
+          pwd
+          ls
 
-  staging-branch-test:
-    executor: test_exec
-    steps:
-      - run: echo "Executing Staging branch job"
+  # staging-branch-test:
+  #   executor: test_exec
+  #   steps:
+  #     - run: echo "Executing Staging branch job"
